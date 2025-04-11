@@ -15,6 +15,27 @@
  */
 #include QMK_KEYBOARD_H
 
+// 在EEPROM中保存RGB配置
+void eeconfig_update_rgb_state(void) {
+    eeconfig_update_rgb_matrix(rgb_matrix_config.raw);
+}
+
+// RGB矩阵效果变化时的回调函数
+void rgb_matrix_indicators_user(void) {
+    // 当RGB状态发生变化时，保存到EEPROM
+    eeconfig_update_rgb_state();
+}
+
+void keyboard_post_init_user(void) {
+    // 从EEPROM中读取RGB配置
+    rgb_matrix_config.raw = eeconfig_read_rgb_matrix();
+    
+    // 应用保存的配置
+    rgb_matrix_mode_noeeprom(rgb_matrix_config.mode);
+    rgb_matrix_sethsv_noeeprom(rgb_matrix_config.hsv.h, rgb_matrix_config.hsv.s, rgb_matrix_config.hsv.v);
+    rgb_matrix_set_speed_noeeprom(rgb_matrix_config.speed);
+}
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_19_tsangan_split_rshift(
     KC_ESC,                    MO(1),

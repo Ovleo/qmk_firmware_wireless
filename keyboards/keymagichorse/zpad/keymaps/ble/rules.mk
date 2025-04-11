@@ -10,8 +10,11 @@ KM_DEBUG = no
 SHIFT595_ENABLED = yes
 ifeq ($(strip $(KB_CHECK_BATTERY_ENABLED)), yes)
  	OPT_DEFS += -DKB_CHECK_BATTERY_ENABLED
-endif   
+endif
 
 include keyboards/keymagichorse/km_common/km_common.mk
 
 VIA_ENABLE = yes
+RGBLIGHT_ENABLE = no
+RGB_MATRIX_ENABLE = yes
+RGB_MATRIX_DRIVER = ws2812
